@@ -4,9 +4,19 @@ import { FilmCard } from "@/components/film-card";
 export default async function SearchPage({
     searchParams,
 }: {
-    searchParams: { q: string };
+    searchParams: Promise<{ q?: string }>;
 }) {
-    const query = searchParams.q;
+    const resolvedParams = await searchParams;
+    const query = resolvedParams.q;
+
+    if (!query) {
+        return (
+            <div className="container mx-auto px-4 py-20 text-center">
+                <h1 className="text-3xl font-bold tracking-tight mb-4">Search</h1>
+                <p className="text-muted-foreground">Please enter a search term to find films.</p>
+            </div>
+        );
+    }
 
     const films = await prisma.film.findMany({
         where: {
