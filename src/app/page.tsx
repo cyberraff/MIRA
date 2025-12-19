@@ -57,7 +57,7 @@ export default async function Home() {
       <Hero />
 
       {continueWatching.length > 0 && (
-        <section className="px-6 md:px-10">
+        <section className="max-w-7xl mx-auto px-6 md:px-10 w-full">
           <div className="mb-12">
             <h2 className="text-xs font-black uppercase tracking-[0.3em]">CONTINUE WATCHING</h2>
           </div>
@@ -69,7 +69,7 @@ export default async function Home() {
         </section>
       )}
 
-      <section className="px-6 md:px-10">
+      <section className="max-w-7xl mx-auto px-6 md:px-10 w-full">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-xs font-black uppercase tracking-[0.3em]">TRENDING NOW</h2>
         </div>
@@ -81,7 +81,7 @@ export default async function Home() {
       </section>
 
       {collections.map((collection: any) => (
-        <section key={collection.id} className="px-6 md:px-10">
+        <section key={collection.id} className="max-w-7xl mx-auto px-6 md:px-10 w-full">
           <div className="mb-12">
             <h2 className="text-xs font-black uppercase tracking-[0.3em]">{collection.title}</h2>
             {collection.description && (
@@ -98,7 +98,7 @@ export default async function Home() {
         </section>
       ))}
 
-      <section className="px-6 md:px-10">
+      <section className="max-w-7xl mx-auto px-6 md:px-10 w-full">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-xs font-black uppercase tracking-[0.3em]">NEW RELEASES</h2>
         </div>

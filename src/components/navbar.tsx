@@ -31,7 +31,7 @@ export function Navbar() {
 
     return (
         <nav className="fixed top-0 z-50 w-full bg-transparent p-6 md:p-10">
-            <div className="flex items-center justify-between">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
                 <div className="flex items-center gap-12">
                     <Link href="/" className="text-3xl font-black tracking-tighter uppercase">
                         MIRA
