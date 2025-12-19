@@ -30,31 +30,30 @@ export function Navbar() {
     };
 
     return (
-        <nav className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/80 backdrop-blur-md">
-            <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
-                <div className="flex items-center gap-8">
-                    <Link href="/" className="text-2xl font-bold tracking-tighter text-primary">
+        <nav className="fixed top-0 z-50 w-full bg-transparent p-6 md:p-10">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-12">
+                    <Link href="/" className="text-3xl font-black tracking-tighter uppercase">
                         MIRA
                     </Link>
-                    <div className="hidden md:flex items-center gap-6">
-                        <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
+                    <div className="hidden md:flex items-center gap-8">
+                        <Link href="/" className="text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity">
                             Home
                         </Link>
-                        <Link href="/browse" className="text-sm font-medium transition-colors hover:text-primary">
+                        <Link href="/browse" className="text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity">
                             Browse
                         </Link>
-                        <Link href="/collections" className="text-sm font-medium transition-colors hover:text-primary">
+                        <Link href="/collections" className="text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity">
                             Collections
                         </Link>
                     </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6">
                     <form onSubmit={handleSearch} className="relative hidden sm:block">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
                             type="search"
-                            placeholder="Search films..."
-                            className="w-[200px] lg:w-[300px] bg-zinc-900 border-zinc-800 pl-9 focus:ring-primary"
+                            placeholder="SEARCH"
+                            className="h-auto border-none bg-transparent p-0 text-xs font-bold uppercase tracking-widest placeholder:text-zinc-500 focus-visible:ring-0 focus-visible:ring-offset-0 w-[120px] lg:w-[200px]"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -63,43 +62,30 @@ export function Navbar() {
                     {session ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarImage src={session.user?.image || ""} alt={session.user?.name || ""} />
-                                        <AvatarFallback>{session.user?.name?.[0] || "U"}</AvatarFallback>
-                                    </Avatar>
-                                </Button>
+                                <button className="text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity">
+                                    {session.user?.name || "ACCOUNT"}
+                                </button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56 bg-zinc-900 border-zinc-800 text-zinc-100" align="end" forceMount>
-                                <DropdownMenuLabel className="font-normal">
-                                    <div className="flex flex-col space-y-1">
-                                        <p className="text-sm font-medium leading-none">{session.user?.name}</p>
-                                        <p className="text-xs leading-none text-muted-foreground">{session.user?.email}</p>
-                                    </div>
-                                </DropdownMenuLabel>
-                                <DropdownMenuSeparator className="bg-zinc-800" />
-                                <DropdownMenuItem asChild>
+                            <DropdownMenuContent className="bg-black border border-white/10 rounded-none min-w-[200px]" align="end">
+                                <DropdownMenuItem asChild className="focus:bg-white focus:text-black rounded-none cursor-pointer uppercase text-xs font-bold tracking-widest p-3">
                                     <Link href="/profile">Profile</Link>
                                 </DropdownMenuItem>
                                 {session.user?.role === "ADMIN" && (
-                                    <DropdownMenuItem asChild>
-                                        <Link href="/admin">Admin Dashboard</Link>
+                                    <DropdownMenuItem asChild className="focus:bg-white focus:text-black rounded-none cursor-pointer uppercase text-xs font-bold tracking-widest p-3">
+                                        <Link href="/admin">Admin</Link>
                                     </DropdownMenuItem>
                                 )}
-                                <DropdownMenuSeparator className="bg-zinc-800" />
-                                <DropdownMenuItem onClick={() => signOut()}>
+                                <DropdownMenuSeparator className="bg-white/10" />
+                                <DropdownMenuItem onClick={() => signOut()} className="focus:bg-white focus:text-black rounded-none cursor-pointer uppercase text-xs font-bold tracking-widest p-3">
                                     Sign out
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ) : (
-                        <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="sm" onClick={() => signIn()}>
+                        <div className="flex items-center gap-6">
+                            <button className="text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity" onClick={() => signIn()}>
                                 Sign In
-                            </Button>
-                            <Button size="sm" onClick={() => signIn()}>
-                                Get Started
-                            </Button>
+                            </button>
                         </div>
                     )}
                 </div>

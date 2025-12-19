@@ -7,6 +7,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { FavoriteButton } from "@/components/favorite-button";
+import { FilmCard } from "@/components/film-card";
 import * as motion from "framer-motion/client";
 
 export default async function FilmDetailsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -44,82 +45,66 @@ export default async function FilmDetailsPage({ params }: { params: Promise<{ id
     });
 
     return (
-        <div className="container mx-auto px-4 py-8 md:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Main Content: Video Player & Info */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="lg:col-span-2 space-y-6"
-                >
-                    <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-2xl">
-                        <FilmPlayer
-                            filmId={film.id}
-                            playbackId={film.videoUrl}
-                            title={film.title}
-                            initialTime={initialTime}
-                        />
+        <div className="flex flex-col gap-20 pb-32 pt-32">
+            {/* Main Content: Video Player */}
+            <section className="px-6 md:px-10">
+                <div className="aspect-video w-full bg-zinc-900 overflow-hidden">
+                    <FilmPlayer
+                        filmId={film.id}
+                        playbackId={film.videoUrl}
+                        title={film.title}
+                        initialTime={initialTime}
+                    />
+                </div>
+
+                <div className="mt-12 flex flex-col md:flex-row md:items-start justify-between gap-12">
+                    <div className="max-w-3xl space-y-8">
+                        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">
+                            {film.title}
+                        </h1>
+                        <p className="text-xs font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60 max-w-2xl">
+                            {film.description}
+                        </p>
                     </div>
 
-                    <div className="space-y-4">
-                        <div className="flex flex-wrap items-center justify-between gap-4">
-                            <h1 className="text-3xl font-bold tracking-tight md:text-4xl">{film.title}</h1>
-                            <div className="flex items-center gap-2">
-                                <Button variant="outline" size="sm">Share</Button>
-                                {session?.user && <FavoriteButton filmId={film.id} />}
+                    <div className="flex flex-col gap-8 min-w-[200px]">
+                        <div className="space-y-4">
+                            <h3 className="text-[10px] font-black uppercase tracking-widest opacity-40">DETAILS</h3>
+                            <div className="flex flex-col gap-2 text-[10px] font-bold uppercase tracking-widest">
+                                <span>CATEGORY: {film.category}</span>
+                                <span>DURATION: {film.duration}</span>
+                                <span>VIEWS: {film.views}</span>
+                                {film.director && <span>DIRECTOR: {film.director}</span>}
+                                {film.year && <span>YEAR: {film.year}</span>}
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <Badge variant="secondary">{film.category}</Badge>
-                            <span>{film.duration}</span>
-                            <span>{film.views} views</span>
-                            {film.director && <span>Directed by {film.director}</span>}
-                            {film.year && <span>{film.year}</span>}
-                        </div>
-
-                        <p className="text-lg leading-relaxed text-zinc-300">
-                            {film.description}
-                        </p>
-
-                        <div className="flex flex-wrap gap-2 pt-2">
+                        <div className="flex flex-wrap gap-2">
                             {film.tags.map((tag: string) => (
-                                <Badge key={tag} variant="outline">#{tag}</Badge>
+                                <span key={tag} className="text-[10px] font-bold uppercase tracking-widest opacity-40">#{tag}</span>
                             ))}
                         </div>
-                    </div>
-                </motion.div>
 
-                {/* Sidebar: Related Content */}
-                <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="space-y-6"
-                >
-                    <h2 className="text-xl font-semibold">Up Next</h2>
-                    <div className="flex flex-col gap-6">
+                        <div className="pt-4">
+                            {session?.user && <FavoriteButton filmId={film.id} />}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Related Content */}
+            {relatedFilms.length > 0 && (
+                <section className="px-6 md:px-10">
+                    <div className="mb-12">
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">UP NEXT</h2>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12">
                         {relatedFilms.map((f: any) => (
-                            <Link key={f.id} href={`/films/${f.id}`}>
-                                <div className="flex gap-4 group cursor-pointer">
-                                    <div className="relative aspect-video w-40 flex-shrink-0 overflow-hidden rounded-lg">
-                                        <img
-                                            src={f.thumbnailUrl}
-                                            alt={f.title}
-                                            className="h-full w-full object-cover transition-transform group-hover:scale-110"
-                                        />
-                                    </div>
-                                    <div className="flex flex-col justify-center">
-                                        <h3 className="font-medium leading-tight group-hover:text-primary transition-colors">{f.title}</h3>
-                                        <p className="text-xs text-muted-foreground mt-1">{f.category} • {f.duration}</p>
-                                    </div>
-                                </div>
-                            </Link>
+                            <FilmCard key={f.id} {...f} thumbnail={f.thumbnailUrl} />
                         ))}
                     </div>
-                </motion.div>
-            </div>
+                </section>
+            )}
         </div>
     );
 }

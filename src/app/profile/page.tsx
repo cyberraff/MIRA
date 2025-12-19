@@ -40,27 +40,31 @@ export default async function ProfilePage() {
     }
 
     return (
-        <div className="container mx-auto px-4 py-12 md:px-8 max-w-6xl">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12">
-                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center text-3xl font-bold text-primary border border-primary/20">
+        <div className="flex flex-col gap-32 pb-32 pt-32 px-6 md:px-10">
+            <div className="flex flex-col md:flex-row items-start gap-12">
+                <div className="h-32 w-32 bg-white text-black flex items-center justify-center text-5xl font-black uppercase">
                     {user.name?.[0] || user.email?.[0]?.toUpperCase()}
                 </div>
-                <div>
-                    <h1 className="text-4xl font-bold tracking-tight">{user.name || "User"}</h1>
-                    <p className="text-muted-foreground mt-1">{user.email}</p>
-                    <div className="flex gap-2 mt-3">
-                        <Badge variant="secondary">{user.role}</Badge>
-                        <Badge variant="outline">{user.favorites.length} Saved Films</Badge>
+                <div className="space-y-4">
+                    <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">
+                        {user.name || "USER"}
+                    </h1>
+                    <p className="text-xs font-bold uppercase tracking-widest opacity-40">{user.email}</p>
+                    <div className="flex gap-6 pt-4">
+                        <span className="text-[10px] font-black uppercase tracking-widest">{user.role}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest opacity-40">{user.favorites.length} SAVED</span>
                     </div>
                 </div>
             </div>
 
-            <div className="space-y-16">
+            <div className="space-y-32">
                 {/* Continue Watching */}
                 {user.watchProgress.length > 0 && (
                     <section>
-                        <h2 className="text-2xl font-bold mb-6">Continue Watching</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="mb-12">
+                            <h2 className="text-xs font-black uppercase tracking-[0.3em]">CONTINUE WATCHING</h2>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12">
                             {user.watchProgress.map((wp: any) => (
                                 <FilmCard
                                     key={wp.film.id}
@@ -72,13 +76,13 @@ export default async function ProfilePage() {
                     </section>
                 )}
 
-                <Separator className="bg-zinc-800" />
-
                 {/* Saved Films */}
                 <section>
-                    <h2 className="text-2xl font-bold mb-6">Saved Films</h2>
+                    <div className="mb-12">
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">SAVED FILMS</h2>
+                    </div>
                     {user.favorites.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-12">
                             {user.favorites.map((fav: any) => (
                                 <FilmCard
                                     key={fav.film.id}
@@ -88,8 +92,8 @@ export default async function ProfilePage() {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-12 bg-zinc-900/50 rounded-2xl border border-dashed border-zinc-800">
-                            <p className="text-muted-foreground">You haven't saved any films yet.</p>
+                        <div className="py-20 border border-white/10 flex items-center justify-center">
+                            <p className="text-[10px] font-bold uppercase tracking-widest opacity-40">NO SAVED FILMS</p>
                         </div>
                     )}
                 </section>
