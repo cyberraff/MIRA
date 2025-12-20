@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { FilmCard } from "@/components/film-card";
+import { FilmCard } from "@/components/shared/film-card";
 
 export default async function SearchPage({
     searchParams,

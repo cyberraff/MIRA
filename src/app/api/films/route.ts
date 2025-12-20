@@ -18,7 +18,19 @@ export async function GET() {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { title, description, thumbnailUrl, videoUrl, duration, category, tags, director, year, language } = body;
+        const {
+            title,
+            description,
+            thumbnailUrl,
+            videoUrl,
+            videoAssetId,
+            duration,
+            category,
+            tags,
+            director,
+            year,
+            language
+        } = body;
 
         const film = await prisma.film.create({
             data: {
@@ -26,6 +38,7 @@ export async function POST(req: Request) {
                 description,
                 thumbnailUrl,
                 videoUrl,
+                videoAssetId,
                 duration,
                 category,
                 tags,

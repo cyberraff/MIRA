@@ -1,4 +1,4 @@
-import { FilmForm } from "@/components/film-form";
+import { FilmForm } from "@/components/admin/film-form";
 import Link from "next/link";
 
 export default function NewFilmPage() {

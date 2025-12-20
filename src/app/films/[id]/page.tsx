@@ -1,13 +1,13 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { FilmPlayer } from "@/components/film-player";
+import { FilmPlayer } from "@/components/film/film-player";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { FavoriteButton } from "@/components/favorite-button";
-import { FilmCard } from "@/components/film-card";
+import { FavoriteButton } from "@/components/shared/favorite-button";
+import { FilmCard } from "@/components/shared/film-card";
 import * as motion from "framer-motion/client";
 
 export default async function FilmDetailsPage({ params }: { params: Promise<{ id: string }> }) {

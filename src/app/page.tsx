@@ -1,5 +1,5 @@
-import { Hero } from "@/components/hero";
-import { FilmCard } from "@/components/film-card";
+import { Hero } from "@/components/home/hero";
+import { FilmCard } from "@/components/shared/film-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { prisma } from "@/lib/prisma";
 import * as motion from "framer-motion/client";

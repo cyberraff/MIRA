@@ -21,49 +21,42 @@ export default async function AdminCollectionsPage() {
     });
 
     return (
-        <div className="space-y-8">
-            <div className="flex items-center justify-between">
+        <div className="space-y-20">
+            <div className="flex items-end justify-between border-b border-white/10 pb-12">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Collections</h1>
-                    <p className="text-muted-foreground mt-2">Create and manage curated groups of films.</p>
+                    <h2 className="text-xs font-black uppercase tracking-[0.3em] opacity-40">CURATION</h2>
+                    <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mt-4">COLLECTIONS</h1>
                 </div>
-                <Button asChild>
-                    <Link href="/admin/collections/new">Create Collection</Link>
-                </Button>
+                <button className="bg-white text-black px-8 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-colors">
+                    <Link href="/admin/collections/new">CREATE COLLECTION</Link>
+                </button>
             </div>
 
-            <div className="rounded-md border border-zinc-800 bg-zinc-900/50">
-                <Table>
-                    <TableHeader>
-                        <TableRow className="hover:bg-transparent border-zinc-800">
-                            <TableHead className="w-[300px]">Title</TableHead>
-                            <TableHead>Films Count</TableHead>
-                            <TableHead>Created At</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {collections.map((collection: any) => (
-                            <TableRow key={collection.id} className="border-zinc-800 hover:bg-zinc-800/50">
-                                <TableCell className="font-medium">{collection.title}</TableCell>
-                                <TableCell>{collection._count.films}</TableCell>
-                                <TableCell>{new Date(collection.createdAt).toLocaleDateString()}</TableCell>
-                                <TableCell className="text-right">
-                                    <Button variant="ghost" size="sm" asChild>
-                                        <Link href={`/admin/collections/${collection.id}`}>Manage Films</Link>
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                        {collections.length === 0 && (
-                            <TableRow>
-                                <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
-                                    No collections found. Create your first curated collection.
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
+            <div className="space-y-0 border-t border-white/10">
+                {collections.map((collection: any) => (
+                    <div key={collection.id} className="grid grid-cols-1 md:grid-cols-4 gap-8 p-8 border-b border-white/10 group hover:bg-white/5 transition-colors items-center">
+                        <div className="md:col-span-2">
+                            <h3 className="text-xs font-black uppercase tracking-widest">{collection.title}</h3>
+                        </div>
+                        <div>
+                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">FILMS</span>
+                            <p className="text-[10px] font-black uppercase mt-1">{collection._count.films}</p>
+                        </div>
+                        <div className="text-right">
+                            <Link
+                                href={`/admin/collections/${collection.id}`}
+                                className="text-[10px] font-black uppercase tracking-widest border border-white/20 px-6 py-2 hover:bg-white hover:text-black transition-all"
+                            >
+                                MANAGE
+                            </Link>
+                        </div>
+                    </div>
+                ))}
+                {collections.length === 0 && (
+                    <div className="py-32 text-center">
+                        <p className="text-[10px] font-black uppercase tracking-[0.5em] opacity-20">NO COLLECTIONS</p>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -12,48 +12,34 @@ export default async function AdminDashboard() {
     });
 
     return (
-        <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">Dashboard Overview</h1>
-                <p className="text-muted-foreground mt-2">Welcome to the MIRA curation dashboard.</p>
+        <div className="space-y-32">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+                <div className="space-y-4">
+                    <h3 className="text-[10px] font-black uppercase tracking-widest opacity-40">TOTAL FILMS</h3>
+                    <div className="text-6xl font-black uppercase tracking-tighter leading-none">{filmCount}</div>
+                </div>
+                <div className="space-y-4">
+                    <h3 className="text-[10px] font-black uppercase tracking-widest opacity-40">COLLECTIONS</h3>
+                    <div className="text-6xl font-black uppercase tracking-tighter leading-none">{collectionCount}</div>
+                </div>
+                <div className="space-y-4">
+                    <h3 className="text-[10px] font-black uppercase tracking-widest opacity-40">TOTAL USERS</h3>
+                    <div className="text-6xl font-black uppercase tracking-tighter leading-none">{userCount}</div>
+                </div>
+                <div className="space-y-4">
+                    <h3 className="text-[10px] font-black uppercase tracking-widest opacity-40">TOTAL VIEWS</h3>
+                    <div className="text-6xl font-black uppercase tracking-tighter leading-none">{totalViews._sum.views || 0}</div>
+                </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <Card className="bg-zinc-900 border-zinc-800">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Total Films</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{filmCount}</div>
-                    </CardContent>
-                </Card>
-                <Card className="bg-zinc-900 border-zinc-800">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Collections</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{collectionCount}</div>
-                    </CardContent>
-                </Card>
-                <Card className="bg-zinc-900 border-zinc-800">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Total Users</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{userCount}</div>
-                    </CardContent>
-                </Card>
-                <Card className="bg-zinc-900 border-zinc-800">
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Total Views</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">{totalViews._sum.views || 0}</div>
-                    </CardContent>
-                </Card>
+            <div className="border border-white/5 p-20 flex flex-col items-center justify-center text-center">
+                <p className="text-[10px] font-black uppercase tracking-[0.5em] opacity-20">SYSTEM OPERATIONAL</p>
+                <div className="mt-8 flex gap-4">
+                    <div className="w-1 h-1 bg-white rounded-full animate-pulse" />
+                    <div className="w-1 h-1 bg-white rounded-full animate-pulse delay-75" />
+                    <div className="w-1 h-1 bg-white rounded-full animate-pulse delay-150" />
+                </div>
             </div>
-
-            {/* Recent Activity or Quick Actions could go here */}
         </div>
     );
 }

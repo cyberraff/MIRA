@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Discover and stream the best short films from around the world.",
 };
 
-import { AuthProvider } from "@/components/auth-provider";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 export default function RootLayout({
   children,
