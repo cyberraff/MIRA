@@ -64,6 +64,19 @@ export function FilmPlayer({ filmId, playbackId, title, initialTime }: FilmPlaye
         }
     };
 
+    const hasViewedRef = useRef(false);
+
+    const onPlay = async () => {
+        if (hasViewedRef.current) return;
+
+        try {
+            await fetch(`/api/films/${filmId}/view`, { method: "POST" });
+            hasViewedRef.current = true;
+        } catch (error) {
+            console.error("Failed to register view", error);
+        }
+    };
+
     return (
         <MuxPlayer
             ref={playerRef}
@@ -74,6 +87,7 @@ export function FilmPlayer({ filmId, playbackId, title, initialTime }: FilmPlaye
             }}
             startTime={initialTime}
             onEnded={onEnded}
+            onPlay={onPlay}
             className="h-full w-full"
         />
     );

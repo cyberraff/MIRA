@@ -49,13 +49,33 @@ export default async function FilmDetailsPage({ params }: { params: Promise<{ id
             <div className="max-w-7xl mx-auto w-full">
                 {/* Main Content: Video Player */}
                 <section className="px-6 md:px-10">
-                    <div className="aspect-video w-full bg-zinc-900 overflow-hidden">
-                        <FilmPlayer
-                            filmId={film.id}
-                            playbackId={film.videoUrl}
-                            title={film.title}
-                            initialTime={initialTime}
-                        />
+                    <div className="aspect-video w-full bg-zinc-900 overflow-hidden relative group">
+                        {session?.user ? (
+                            <FilmPlayer
+                                filmId={film.id}
+                                playbackId={film.videoUrl}
+                                title={film.title}
+                                initialTime={initialTime}
+                            />
+                        ) : (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10">
+                                <div
+                                    className="absolute inset-0 bg-cover bg-center opacity-20 blur-sm"
+                                    style={{ backgroundImage: `url(${film.thumbnailUrl})` }}
+                                />
+                                <div className="relative z-20 text-center space-y-6 max-w-md px-6">
+                                    <h3 className="text-2xl font-black uppercase tracking-tighter">
+                                        Members Only
+                                    </h3>
+                                    <p className="text-xs font-bold uppercase tracking-widest opacity-60">
+                                        Sign in to stream this film and unlock the full library.
+                                    </p>
+                                    <Button asChild className="bg-white text-black hover:bg-zinc-200 font-black tracking-widest text-[10px] px-8 py-6 rounded-none uppercase">
+                                        <Link href="/api/auth/signin">Sign In to Watch</Link>
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="mt-12 flex flex-col md:flex-row md:items-start justify-between gap-12">

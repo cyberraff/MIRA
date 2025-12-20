@@ -13,7 +13,7 @@ interface FilmCardProps {
 export function FilmCard({ id, title, duration, category, thumbnail }: FilmCardProps) {
     return (
         <Link href={`/films/${id}`} className="group block">
-            <div className="relative aspect-video overflow-hidden bg-zinc-900">
+            <div className="relative aspect-[3/4] overflow-hidden bg-zinc-900">
                 <img
                     src={thumbnail}
                     alt={title}
