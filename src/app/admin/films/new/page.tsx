@@ -1,13 +1,12 @@
 import { FilmForm } from "@/components/film-form";
+import Link from "next/link";
 
 export default function NewFilmPage() {
     return (
-        <div className="max-w-4xl mx-auto space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">Add New Film</h1>
-                <p className="text-muted-foreground mt-2">Enter the metadata and video details for the new film.</p>
-            </div>
-
+        <div className="space-y-12">
+            <Link href="/admin/films" className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-opacity">
+                ← BACK TO LIBRARY
+            </Link>
             <FilmForm />
         </div>
     );
