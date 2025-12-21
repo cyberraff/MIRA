@@ -18,11 +18,38 @@ export async function GET(
         const upload = await muxVideo.uploads.retrieve(uploadId);
 
         if (upload.status === "asset_created") {
-            const asset = await muxVideo.assets.retrieve(upload.asset_id!);
+            const assetId = upload.asset_id!;
+            const asset = await muxVideo.assets.retrieve(assetId);
+
+            // Sync passthrough title to meta if needed
+            let title: string | undefined;
+            if (asset.passthrough) {
+                try {
+                    const parsed = JSON.parse(asset.passthrough);
+                    title = parsed.title;
+
+                    // If we have a title but no meta.title, let's update it
+                    // cast to any because typedefs might lag
+                    if (title && !(asset as any).meta?.title) {
+                        await muxVideo.assets.update(assetId, {
+                            passthrough: asset.passthrough, // Mux requires this or it might clear it? better safe
+                            meta: {
+                                title: title,
+                                type: parsed.type || "film"
+                            }
+                        } as any);
+                    }
+                } catch (e) {
+                    // ignore
+                }
+            }
+
             return NextResponse.json({
                 status: "completed",
                 assetId: asset.id,
                 playbackId: asset.playback_ids?.[0]?.id,
+                duration: asset.duration,
+                title,
             });
         }
 

@@ -8,7 +8,9 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { FavoriteButton } from "@/components/shared/favorite-button";
 import { FilmCard } from "@/components/shared/film-card";
+import { TrailerButton } from "@/components/film/trailer-button";
 import * as motion from "framer-motion/client";
+import { FilmViewer } from "@/components/film/film-viewer";
 
 export default async function FilmDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -44,39 +46,21 @@ export default async function FilmDetailsPage({ params }: { params: Promise<{ id
         take: 3,
     });
 
+    // Simulate subscription check for now (User Rule: All Free initially)
+    const hasSubscription = true;
+    const isLoggedIn = !!session?.user;
+
     return (
         <div className="flex flex-col gap-20 pb-32 pt-32">
             <div className="max-w-7xl mx-auto w-full">
-                {/* Main Content: Video Player */}
+                {/* Main Content: Video Player & Tabs */}
                 <section className="px-6 md:px-10">
-                    <div className="aspect-video w-full bg-zinc-900 overflow-hidden relative group">
-                        {session?.user ? (
-                            <FilmPlayer
-                                filmId={film.id}
-                                playbackId={film.videoUrl}
-                                title={film.title}
-                                initialTime={initialTime}
-                            />
-                        ) : (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10">
-                                <div
-                                    className="absolute inset-0 bg-cover bg-center opacity-20 blur-sm"
-                                    style={{ backgroundImage: `url(${film.thumbnailUrl})` }}
-                                />
-                                <div className="relative z-20 text-center space-y-6 max-w-md px-6">
-                                    <h3 className="text-2xl font-black uppercase tracking-tighter">
-                                        Members Only
-                                    </h3>
-                                    <p className="text-xs font-bold uppercase tracking-widest opacity-60">
-                                        Sign in to stream this film and unlock the full library.
-                                    </p>
-                                    <Button asChild className="bg-white text-black hover:bg-zinc-200 font-black tracking-widest text-[10px] px-8 py-6 rounded-none uppercase">
-                                        <Link href="/api/auth/signin">Sign In to Watch</Link>
-                                    </Button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    <FilmViewer
+                        film={film}
+                        initialTime={initialTime}
+                        hasSubscription={hasSubscription}
+                        isLoggedIn={isLoggedIn}
+                    />
 
                     <div className="mt-12 flex flex-col md:flex-row md:items-start justify-between gap-12">
                         <div className="max-w-3xl space-y-8">
@@ -86,6 +70,7 @@ export default async function FilmDetailsPage({ params }: { params: Promise<{ id
                             <p className="text-xs font-bold uppercase tracking-[0.2em] leading-relaxed opacity-60 max-w-2xl">
                                 {film.description}
                             </p>
+                            {/* Existing Trailer Button Removed as it is now in Tabs */}
                         </div>
 
                         <div className="flex flex-col gap-8 min-w-[200px]">

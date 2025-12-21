@@ -52,6 +52,14 @@ export async function PATCH(
             language,
             tags,
             visibility,
+            trailerUrl,
+            trailerAssetId,
+            trailerThumbnailUrl,
+            trailerDuration,
+            btsUrl,
+            btsAssetId,
+            btsThumbnailUrl,
+            btsDuration,
         } = body;
 
         const film = await prisma.film.update({
@@ -68,6 +76,14 @@ export async function PATCH(
                 language,
                 tags,
                 visibility,
+                trailerUrl,
+                trailerAssetId,
+                trailerThumbnailUrl,
+                trailerDuration,
+                btsUrl,
+                btsAssetId,
+                btsThumbnailUrl,
+                btsDuration,
             },
         });
 

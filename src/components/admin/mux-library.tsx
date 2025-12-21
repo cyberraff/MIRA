@@ -17,6 +17,10 @@ interface MuxAsset {
     status: string;
     createdAt: string;
     duration: number;
+    resolution_tier?: string;
+    max_resolution?: string;
+    aspect_ratio?: string;
+    title?: string;
     isImported: boolean;
 }
 
@@ -55,7 +59,7 @@ export function MuxLibrary({ onImport }: MuxLibraryProps) {
                     MUX LIBRARY
                 </button>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl bg-black border-white/10 text-white rounded-none">
+            <DialogContent className="max-w-[40vw] bg-black border-white/10 text-white rounded-none">
                 <DialogHeader>
                     <DialogTitle className="text-xs font-black uppercase tracking-[0.3em]">MUX ASSET LIBRARY</DialogTitle>
                 </DialogHeader>
@@ -78,10 +82,19 @@ export function MuxLibrary({ onImport }: MuxLibraryProps) {
                                                 <Film className="h-6 w-6 opacity-40" />
                                             </div>
                                             <div>
-                                                <p className="text-[10px] font-black uppercase tracking-widest">{asset.id}</p>
-                                                <p className="text-[8px] font-bold uppercase tracking-widest opacity-40 mt-1">
-                                                    {(asset.duration / 60).toFixed(2)} MINS • {asset.status} • {new Date(parseInt(asset.createdAt) * 1000).toLocaleDateString()}
-                                                </p>
+                                                <p className="text-[10px] font-black uppercase tracking-widest">{asset.title || asset.id}</p>
+                                                <p className="text-[8px] font-bold uppercase tracking-widest opacity-40 mt-1">{asset.id}</p>
+                                                <div className="flex gap-2 text-[8px] font-bold uppercase tracking-widest opacity-40 mt-1">
+                                                    <span>{(asset.duration / 60).toFixed(2)} MINS</span>
+                                                    <span>•</span>
+                                                    <span className={asset.status === 'ready' ? 'text-green-500' : 'text-yellow-500'}>{asset.status}</span>
+                                                    <span>•</span>
+                                                    <span>{asset.max_resolution || 'HD'}</span>
+                                                    <span>•</span>
+                                                    <span>{asset.aspect_ratio || '16:9'}</span>
+                                                    <span>•</span>
+                                                    <span>{new Date(parseInt(asset.createdAt) * 1000).toLocaleDateString()}</span>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -91,15 +104,32 @@ export function MuxLibrary({ onImport }: MuxLibraryProps) {
                                                 <span className="text-[8px] font-black uppercase tracking-widest">IMPORTED</span>
                                             </div>
                                         ) : (
-                                            <button
-                                                onClick={() => {
-                                                    onImport(asset);
-                                                    setIsOpen(false);
-                                                }}
-                                                className="bg-white text-black px-6 py-2 text-[8px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-colors"
-                                            >
-                                                IMPORT
-                                            </button>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => {
+                                                        onImport(asset);
+                                                        setIsOpen(false);
+                                                    }}
+                                                    className="bg-white text-black px-6 py-2 text-[8px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+                                                >
+                                                    IMPORT
+                                                </button>
+                                                <button
+                                                    onClick={async () => {
+                                                        if (confirm("Are you sure you want to delete this asset from Mux? This cannot be undone.")) {
+                                                            try {
+                                                                await fetch(`/api/mux/assets?id=${asset.id}`, { method: "DELETE" });
+                                                                fetchAssets(); // Refresh list
+                                                            } catch (error) {
+                                                                alert("Failed to delete asset");
+                                                            }
+                                                        }
+                                                    }}
+                                                    className="border border-red-500/50 text-red-500 px-4 py-2 text-[8px] font-black uppercase tracking-widest hover:bg-red-950/30 transition-colors"
+                                                >
+                                                    DELETE
+                                                </button>
+                                            </div>
                                         )}
                                     </div>
                                 ))

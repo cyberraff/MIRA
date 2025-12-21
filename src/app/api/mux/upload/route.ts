@@ -11,10 +11,17 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const body = await req.json().catch(() => ({}));
+        const { title } = body;
+
         const upload = await muxVideo.uploads.create({
             cors_origin: "*", // In production, you might want to restrict this
             new_asset_settings: {
                 playback_policy: ["public"],
+                passthrough: JSON.stringify({
+                    title: title || "Untitled Film",
+                    type: "film",
+                }),
             },
         });
 

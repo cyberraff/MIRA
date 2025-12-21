@@ -72,6 +72,16 @@ model Film {
   thumbnailUrl  String
   videoUrl      String   // This will store the Mux playback ID
   videoAssetId  String?  // Mux Asset ID
+  trailerUrl    String?  // Mux playback ID for the trailer
+  trailerAssetId String? // Mux Asset ID for the trailer
+  trailerThumbnailUrl String?
+  trailerDuration String?
+  
+  btsUrl    String?  // Mux playback ID for BTS
+  btsAssetId String? // Mux Asset ID for BTS
+  btsThumbnailUrl String?
+  btsDuration String?
+
   duration      String
   director      String?
   year          Int?
