@@ -11,6 +11,7 @@ import { FilmCard } from "@/components/shared/film-card";
 import { TrailerButton } from "@/components/film/trailer-button";
 import * as motion from "framer-motion/client";
 import { FilmViewer } from "@/components/film/film-viewer";
+import { CommentSection } from "@/components/film/comment-section";
 
 export default async function FilmDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -97,6 +98,8 @@ export default async function FilmDetailsPage({ params }: { params: Promise<{ id
                         </div>
                     </div>
                 </section>
+
+                <CommentSection filmId={film.id} />
 
                 {/* Related Content */}
                 {relatedFilms.length > 0 && (

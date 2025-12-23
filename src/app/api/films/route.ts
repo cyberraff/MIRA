@@ -34,6 +34,10 @@ export async function POST(req: Request) {
             trailerAssetId,
             trailerThumbnailUrl,
             trailerDuration,
+            btsUrl,
+            btsAssetId,
+            btsThumbnailUrl,
+            btsDuration,
         } = body;
 
         const film = await prisma.film.create({
@@ -53,6 +57,10 @@ export async function POST(req: Request) {
                 trailerAssetId,
                 trailerThumbnailUrl,
                 trailerDuration,
+                btsUrl,
+                btsAssetId,
+                btsThumbnailUrl,
+                btsDuration,
             },
         });
 

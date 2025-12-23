@@ -45,6 +45,12 @@ export default async function AdminLayout({
                         >
                             COLLECTIONS
                         </Link>
+                        <Link
+                            href="/admin/moderation"
+                            className="text-xs font-black uppercase tracking-widest hover:opacity-50 transition-opacity"
+                        >
+                            MODERATION
+                        </Link>
                     </nav>
                 </div>
 

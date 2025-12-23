@@ -55,6 +55,9 @@ model User {
   films         Film[]
   favorites     Favorite[]
   watchProgress WatchProgress[]
+  comments      Comment[]
+  commentLikes  CommentLike[]
+  reports       Report[]
 }
 
 model VerificationToken {
@@ -98,6 +101,7 @@ model Film {
   favorites     Favorite[]
   watchProgress WatchProgress[]
   collections   CollectionFilm[]
+  comments      Comment[]
 }
 
 enum Visibility {
@@ -146,4 +150,44 @@ model WatchProgress {
   film          Film     @relation(fields: [filmId], references: [id], onDelete: Cascade)
 
   @@unique([userId, filmId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  filmId    String
+  film      Film     @relation(fields: [filmId], references: [id], onDelete: Cascade)
+
+  parentId  String?
+  parent    Comment? @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentToComment")
+
+  likes     CommentLike[]
+  reports   Report[]
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+  userId    String
+  commentId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  userId    String
+  commentId String
+  reason    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
